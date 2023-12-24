@@ -4,5 +4,10 @@
 # How To Run The Game
 > [!NOTE]
 > You can simpy run the file which in the "exe file" folder.
+- Go to the extracted zip file location and write:
+```
+g++ main.cpp src/Animation.cpp -Iheader
+```
+
 
  
