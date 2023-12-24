@@ -3,6 +3,6 @@
 
 # How To Run The Game
 [!NOTE]
- - You can simpy run the file which in the "exe file" folder.
+ You can simpy run the file which in the "exe file" folder.
 
  
