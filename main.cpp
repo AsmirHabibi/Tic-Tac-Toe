@@ -9,6 +9,7 @@ using namespace std;
 
 void drawBoard(char *spaces)
 {
+    // clears every message before
     system("cls");
     cout << endl;
     cout << "      |      |      " << endl;
@@ -28,13 +29,15 @@ void drawBoard(char *spaces)
 void PlayerMove(char *spaces, char player)
 {
     int number;
+    // This do-while will not stop until the user enters a number between 1 and 8
     do
     {
         Sleep(1000);
         cout << "Enter where you want to put your mark at: ";
         cin >> number;
+        // this decrements the player input because array starts with zero so input - 1 is necessary.
         number--;
-
+        // this if statement replaces the empty ones with the player mark.
         if (spaces[number] = ' ')
         {
             spaces[number] = player;
@@ -48,7 +51,7 @@ void ComputerMove(char *spaces, char computer)
     int number;
     srand(time(0));
     cout << "Computers Turn..." << endl;
-    
+    // Since we want random nuumber to be generated every time when its computer turn so it wwouuld be palced insdie of the while loop instead outside.
     while (true)
     {
         number = rand() % 9;
@@ -61,11 +64,13 @@ void ComputerMove(char *spaces, char computer)
 }
 
 /*
+This is just for the Check Winner Logic
     [0] | [1] | [2]
     [3] | [4] | [5]
     [6] | [7] | [8]
 */
-
+// checkWinner is a bool because we want it to send either true or false, the reason for this is for the int main()
+// This checks the basic rule of Tic-Tac-Toe diagonal and straight.
 bool checkWinner(char *spaces, char player, char computer)
 {
     if (spaces[0] != ' ' && spaces[0] == spaces[1] && spaces[1] == spaces[2])
@@ -107,8 +112,9 @@ bool checkWinner(char *spaces, char player, char computer)
     }
     return true;
 }
-
-bool checkTie(char *spaces){
+// Tthis function checks if there are any spaces left if they are then continuue the agme if not it means no one hass on so it will display tie.
+bool checkTie(char *spaces)
+{
     for (int i = 0; i < 9; i++)
     {
         if (spaces[i] == ' ')
@@ -118,7 +124,6 @@ bool checkTie(char *spaces){
     }
     cout << "YOOOO, Its a TIE!!!!!" << endl;
     return true;
-    
 }
 
 int main()
@@ -127,42 +132,51 @@ int main()
     char spaces[9] = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
     char player;
     char computer;
+    // This running boolean will be used to implemet the start and the end of game
     bool running = true;
     system("cls");
-
+    // this will just do the animation which is in the src folder
     Animation animate;
-
+// This for-loop will check if the user's input is x,X,O or o, if not then it will continue
     for (;;)
     {
-      cout << "Enter Your Mark: ";
-      cin >> player;
+        cout << "Enter Your Mark: ";
+        cin >> player;
 
-    if (player == 'X' || player == 'x')
-    {
-      player = 'X';
-      computer = 'O';
-      break;
-    } else if (player == 'O' || player == 'o')
-    {
-      player = 'O';
-      computer = 'X';
-      break;
-    } else {
-      cout << "Invalid Input! Please Enter X or O." << endl;
+        if (player == 'X' || player == 'x')
+        {
+            player = 'X';
+            computer = 'O';
+            break;
+        }
+        else if (player == 'O' || player == 'o')
+        {
+            player = 'O';
+            computer = 'X';
+            break;
+        }
+        else
+        {
+            cout << "Invalid Input! Please Enter X or O." << endl;
+        }
     }
-    }
-    
+
     drawBoard(spaces);
 
+    // this while loop wwill run until the running is true
     while (running)
     {
         PlayerMove(spaces, player);
         drawBoard(spaces);
+        // if checkWinner's response is 1 meaning true it means that someone has one thus the game will end.
         if (checkWinner(spaces, player, computer))
         {
             running = false;
             break;
-        } else if(checkTie(spaces)){
+        }
+        // This checks for tie
+        else if (checkTie(spaces))
+        {
             running = false;
             break;
         }
@@ -176,17 +190,23 @@ int main()
         }
     }
     Sleep(2000);
+    // After the game ends this do while loop asks the user to play again or not. and if the user entered any invalid input it will repeat 
     do
     {
         cout << "Wanna Try Again?" << endl;
         cout << "Enter [Yes/no]" << endl;
         cin >> yn;
     } while (yn != "yes" && yn != "y" && yn != "Yes" && yn != "Y" && yn != "n" && yn != "N" && yn != "No" && yn != "no");
-     std::transform(yn.begin(), yn.end(), yn.begin(), ::tolower);
+    // this transform will make the user's whole input to be lower case.
+    //                                                | the tolower function is imported using the cctype include header file.
+    std::transform(yn.begin(), yn.end(), yn.begin(), ::tolower);
+
     if (yn == "yes" || yn == "y")
     {
+        // this is the main() function, basically recursion
         main();
-    } else if (yn == "no" || yn == "n")
+    }
+    else if (yn == "no" || yn == "n")
     {
         cout << "Bye Bye.." << endl;
         Sleep(2000);
